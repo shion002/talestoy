@@ -1,0 +1,1116 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>짬상 시뮬레이션</title>
+<meta charset = 'utf-8'>
+<meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+<meta property = "og:url" content = "http://zzamsang.dothome.co.kr/">
+<meta property = "og:title" content = "짬상 시뮬레이션">
+<meta property = "og:type" content = "website">
+<meta property = "og:image" content = "./images/og_image1.png">
+<meta property = "og:description" content = "무분별한 공유 절대금지">
+<style>
+@font-face {
+    font-family: 'JalnanGothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/JalnanGothic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'BMJUA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+ul, li{
+	list-style:none;
+	padding:0;
+	margin:0;
+}
+body{
+	background-color:#060d9a;
+	margin:0;
+}
+.container{
+	width:90%;
+	margin:5% 5%;
+	background-color:#fff;
+	border-radius:20px;
+	padding-bottom:250px;
+}
+header{
+	padding:10px 40px;
+	overflow:hidden;
+	position:relative;
+	z-index:1;
+}
+header > h3{
+	font-family: 'JalnanGothic';
+	width:200px;
+}
+.header_menu{
+	display:flex;
+	align-items:center;
+	flex-wrap:wrap;
+	float:right;
+}
+.header_menu > li{
+	margin:0 15px;
+	font-family: 'BMJUA';
+	text-align:center;
+	width:100px;
+	cursor:pointer;
+	transition:0.3s;
+	color:#555;
+}
+.header_menu > li:hover{
+	color:#9f7eff;
+}
+
+.simulation{
+	margin-top:50px;
+	font-family: 'SUITE-Regular';
+	position:relative;
+	z-index:1;
+}
+section> h3{
+	text-align:center;
+}
+.select-item{
+	margin:auto;
+	display: block;
+	border: 1px solid #ccc;
+	padding: 10px;
+	border-radius: 3px;
+	font-family: 'SUITE-Regular';
+}
+.select_way{
+	display:flex;
+	justify-content:center;
+}
+.btn_basic{
+	display:block;
+	margin:20px 10px;
+	border:none;
+	padding:5px 10px;
+	color:white;
+	background-color:#000097;
+	border-radius:10px;
+	font-family: 'SUITE-Regular';
+	font-size:16px;
+	cursor:pointer;
+}
+.btn_basic.active{
+	background-color:#9f7eff;
+	box-shadow:inset 0 0 3px rgba(0,0,0,0.5);
+}
+.input_field{
+	display:flex;
+	justify-content:center;
+}
+.input_basic{
+	display:block;
+	border:1px solid #ccc;
+	padding:10px;
+	border-radius:5px;
+	width:150px;
+	font-family: 'SUITE-Regular';
+}
+.input_button{
+	display:block;
+	border:none;
+	padding:10px 20px;
+	background-color:#000097;
+	color:white;
+	font-family: 'SUITE-Regular';
+	border-radius:20px;
+	margin-left:10px;
+	cursor:pointer;
+	transition:0.3s;
+}
+.input_button:active{
+	box-shadow:inset 0 0 5px rgba(0,0,0,0.5);
+}
+.oneclick_field {
+	display:none;
+}
+.oneclick_field > button{
+	margin:20px auto;
+}
+@media (max-width : 700px){
+	header > h3{
+		margin:40px auto;
+		text-align:center;
+	}
+	.header_menu{
+		display:block;
+		float:none;
+	}
+	.header_menu > li{	
+		margin:auto;
+		margin-top:15px;	
+	}
+}
+.item_list{
+	width:90%;
+	margin:80px 5%;
+}
+.item_list > li{
+	display:flex;
+	justify-content:space-between;
+	border-radius:10px;
+	background-color:rgba(0,0,0,0.6);
+	color:#fff;
+	padding:0 10px;
+	margin:10px 0;
+}
+.item_list > li > p:nth-child(1){
+	width:40%;
+}
+
+.act_section{
+	width:100%;
+	height:100%;
+	position:fixed;
+	top:0;left:0;
+
+}
+.act_section > div{
+	display:flex;
+	justify-content:space-between;
+	border-radius:10px;
+	background-color:rgba(0,0,0,0.6);
+	color:#fff;
+	padding:0 10px;
+	margin:10px 0;
+	width:300px;
+	transition:0.5s;
+	position:absolute;
+	left:0;
+}
+
+.music_section{
+	display:none;
+}
+#audioVolume{
+	margin:auto;
+	display:block;
+}
+.oneclick_field_p{
+	text-align:center;
+	margin-bottom:5px;
+	color:#888;
+}
+
+.mute_btn{
+	background-color:#666;
+	color:#fff;
+	width:85px;
+	padding:5px 0;
+	margin:10px auto;
+	border-radius:5px;
+	cursor:pointer;	
+	text-align:center;
+	font-size:14px;
+}
+.mute_btn.active{
+	background-color:#aaa;
+	box-shadow:inset 0 0 3px rgba(0,0,0,0.5);
+}
+#alertVolume{
+	font-size:12px;
+}
+
+.strong_section{
+	font-family: 'SUITE-Regular';
+	position:relative;
+	z-index:1;
+	display:none;
+}
+.strong_p{
+	text-align:center;
+}
+.strong_section > input{
+	margin:20px auto;
+}
+.seed_field{
+	text-align:center;
+}
+.button_field > button{
+	margin:20px auto;
+	background-color:#8e69f7;
+	transition:0.15s;
+	padding:10px 0px;
+	width:30%;
+}
+.button_field > button:active{
+	box-shadow:inset 0 0 3px rgba(0,0,0,0.3);
+}
+
+#lottoSection{
+	font-family: 'SUITE-Regular';
+	position:relative;
+	z-index:1;
+	display:none;
+}
+.number_field{
+	display:flex;
+	justify-content:center;
+}
+.number_field > p{
+	width:30px;
+	height:30px;
+	margin:5px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	border-radius:50%;
+	font-size:14px;
+}
+.number_list{
+	color:white;
+	box-shadow:0 0 5px rgba(0,0,0,0.5);	
+}
+.number_symbol{
+	background-color:#fff;
+	font-size:30px;
+	color:#333;
+}
+.lotto_number{
+	text-align:center;
+	margin-top:70px;
+}
+.lotto_number div{
+	display:flex;
+	justify-content:center;
+	margin:10px 0;
+
+	align-items: center;
+}
+.lotto_number div > p{
+	width:25px;
+	height:25px;
+	margin:5px;
+	border-radius:50%;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	font-size:12px;
+}
+#lottoDiv div{
+	margin-right:30px;	
+}
+#winLottoDiv div{	
+}
+.lotto_number div > span{
+	display:block;
+	font-size:11px;
+	margin: 0 6px;
+	width:50px;
+}
+#awardList{
+	text-align:center;
+}
+</style>
+</head>
+<body>
+
+<div class = 'container'>
+	<header>
+		<h3>짬상 시뮬레이션</h3>
+		<ul class = 'header_menu'>
+			<li id = 'menu1' onclick = 'menuClickFirst()'>키트 시뮬레이션</li>
+			<li id = 'menu2' onclick = 'menuClickSec()'>강화 시뮬레이션</li>
+			<li id = 'menu3' onclick = 'menuClickThird()'>로또 시뮬레이션</li>
+		</ul>
+	</header>
+	<section class = 'simulation' id = 'simulSection'>
+		<h3>키트 시뮬레이션</h3>
+		<p style = 'font-size:12px;color:#777;text-align:center;'>버그 및 수정사항 발생 시 오픈톡 or 수다방 '짬상v'로 말씀주세요</p>
+		<select class = 'select-item' id = 'selectName' onChange = 'clearList()'>
+			<option>젤리삐의 오색찬란 떡국</option>
+			<option>젤리삐의 노랑 떡국</option>
+			<option>프로즌 리저드의 황금 점박이 알</option>
+			<option>프로즌 리저드의 점박이 알</option>
+		</select>
+		<div class = 'select_way' id = 'selectWay'>
+			<button class = 'btn_basic active' onclick = 'btnActive(this)'>즉시 사용</button>
+			<button class = 'btn_basic' onclick = 'btnActive(this)' id = 'oneClick'>한개씩 사용</button>
+		</div>
+
+		<div class = 'input_field' id = 'inputDiv'>
+			<input type = 'number' class = 'input_basic' id = 'simulationInput' placeholder = '개수 입력' onkeyPress = 'return numkey()'>
+			<button class = 'input_button' onclick = 'inputClick()'>뽑기</button>
+		</div>
+
+		<div class = 'oneclick_field' id = 'oneclickDiv'>
+			<p class = 'oneclick_field_p'>볼륨</p>	
+			<p class = 'oneclick_field_p' id = 'alertVolume'>일부 모바일은 음량조절이 안되니 음소거 기능 활용</p>	
+			<p class = 'mute_btn' id = 'muteBtn' onclick = 'muteBtn()'>음소거</p>
+			<input type = 'range' min = 0; max = 10; step = 1; id = 'audioVolume' onchange = volumeChange(this);>
+			<button class = 'input_button' onclick = 'oneClick()'>뽑기</button>
+		</div>
+
+		<ul class = 'item_list' id = 'itemList'>
+
+		</ul>
+
+	</section>
+	<section class = 'act_section' id = 'actSection'>
+	</section>
+	<section class = 'music_section' id = 'musicSection'>
+		<audio controls id = 'effectAudio'>
+			<source src = './music/effectitem.mp3' type = 'audio/mpeg'>
+		</audio>
+	</section>
+	<section class = 'strong_section' id = 'strongSection'>
+		<h3>강화 시뮬레이션</h3>
+		<p class = 'strong_p'>성공률 : 낮음</p>	
+		<input type = 'number' class = 'input_basic' id = 'stoneObj' placeholder = '빛장강 개수 입력' onkeyPress = 'return numkey()'>
+		<input type = 'number' class = 'input_basic' id = 'seedObj' placeholder = '비용 입력' onkeyPress = 'return numkey()'>
+		<div class = 'seed_field' id = 'seedField'>
+			<p id = 'seedUse'>소모 시드 : 0 seed</p>
+			<p id = 'stoneUse'>소모된 빛나는 장비 강화석 : 0개</p>
+			<p id = 'successUse'>성공횟수 : 0번</p>
+			<p id = 'failUse'>실패횟수 : 0번</p>
+		</div>
+		<div class = 'button_field'>
+			<button class = 'btn_basic' onclick = 'strongBtn(50)'>50번 시도</button>
+			<button class = 'btn_basic' onclick = 'strongBtn(100)'>100번 시도</button>
+			<button class = 'btn_basic' onclick = 'strongBtn(300)'>300번 시도</button>
+			<button class = 'btn_basic' onclick = 'strongBtn(500)'>500번 시도</button>
+			<button class = 'btn_basic' onclick = 'strongBtn(1)'>강화하기(1회)</button>
+		</div>
+	</section>
+	<section class = 'lotto_section' id = 'lottoSection'>
+		<h3>로또 시뮬레이션</h3>
+		<p class = 'oneclick_field_p'>버튼 클릭시 당첨될때까지 계속 구매됩니다.</p>
+		<h3>확률</h3>
+		<p class = 'oneclick_field_p'>1등 : 0.000012% (6개 번호 일치)</p>
+		<p class = 'oneclick_field_p'>2등 : 0.000073% (5개 번호 + 보너스 번호 일치)</p>
+		<p class = 'oneclick_field_p'>3등 : 0.002799% (5개 번호 일치)</p>
+		<p class = 'oneclick_field_p'>4등 : 0.136425% (4개 번호 일치)</p>
+		<p class = 'oneclick_field_p'>5등 : 2.222222% (3개 번호 일치)</p>
+
+		<h3 id = 'lottoTitle' style = 'margin-top:45px;'></h3>
+		<div class = 'number_field' id = 'numberField'>
+			
+		</div>
+		<h3>로또 몇번사면 당첨될까</h3>
+		<p class = 'oneclick_field_p'>1등, 2등, 3등은 과부하 방지로 구매한 총 로또 번호 미제공</p>	
+		<div class = 'seed_field' id = 'seedField'>
+			<p id = 'lottoSeedUse'>총 구매 금액 : 0 원</p>
+			<p id = 'lottoBuy'>구매 개수 : 0 번</p>
+			<p id = 'lottoMoney'>당첨 금액 : 0 원</p>
+		</div>
+		<div class = 'button_field'>
+			<button class = 'btn_basic' onclick = 'lottoClick(6)'>1등</button>
+			<button class = 'btn_basic' onclick = 'lottoClickSec()'>2등</button>
+			<button class = 'btn_basic' onclick = 'lottoClick(5)'>3등</button>
+			<button class = 'btn_basic' onclick = 'lottoClick(4)'>4등</button>
+			<button class = 'btn_basic' onclick = 'lottoClick(3)'>5등</button>
+		</div>
+		<div class = 'award_list' id = 'awardList'>
+		</div>
+		<div class = 'lotto_number' id = 'winLottoDiv'>
+		</div>
+		<div class = 'lotto_number' id = 'lottoDiv'>
+		</div>
+	</section>
+</div>
+
+<script>
+
+let useSeed = 0;
+let useStone = 0;
+let success = 0;
+let fail = 0;
+
+// lotto
+const winNumber = [6, 16, 34, 37, 39, 40];
+const bonusNumber = 11;
+
+initialLotto();
+
+function menuClickThird(){
+	let simulSection = document.getElementById('simulSection');
+	let strongSection = document.getElementById('strongSection');
+	let lottoSection = document.getElementById('lottoSection');
+
+	selectChange();
+	strongReset();
+	simulSection.style.display = 'none';
+	strongSection.style.display = 'none';
+	lottoSection.style.display = 'block';
+}
+
+function lottoUse(turn, awardNum){
+	let lottoSeedUse = document.getElementById('lottoSeedUse');
+	let lottoBuy = document.getElementById('lottoBuy');
+	let lottoMoney = document.getElementById('lottoMoney');
+	let awardList = document.getElementById('awardList');
+	let money = 0;
+
+	let lottoMoneyValue = [1834853800, 55266681, 1582863, 50000, 5000];
+
+	useSeed = turn * 1000;
+
+	for(let i = 0; i < 5; i++){
+		money += awardNum[i] * lottoMoneyValue[i];
+	}
+
+	awardList.innerHTML = ``
+
+	let seedString = useSeed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+	lottoSeedUse.innerHTML = `총 구매 금액 : ${seedString} 원`;
+	lottoBuy.innerHTML = `구매 개수 : ${turn} 번`;
+
+	seedString = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+	lottoMoney.innerHTML = `당첨 금액 : ${seedString} 원`
+
+	awardList.innerHTML = `
+		<h3>당첨 횟수</h3>
+		<p>1등 : ${awardNum[0]}회</p>
+		<p>2등 : ${awardNum[1]}회</p>
+		<p>3등 : ${awardNum[2]}회</p>
+		<p>4등 : ${awardNum[3]}회</p>
+		<p>5등 : ${awardNum[4]}회</p>
+		`
+}
+
+function lottoClickSec(){
+	let count = 0;
+	let turn = 0;
+	let num = [];
+	let awardNum = new Array(5);
+
+	awardNum.fill(0);
+
+	let lottoDiv = document.getElementById('lottoDiv');
+
+	let numArray = '';
+
+	lottoDiv.innerHTML = '';
+
+	while(1){
+		turn++;
+		num = randomNumber();
+		for(let i = 0; i < 6; i++){
+			if(winNumber.includes(num[i])){
+				count++;
+			}
+		}
+
+		awardNum[awardReturn(count, num)]++;
+
+		if(count == 5){
+			if(num.includes(bonusNumber)){	
+				alert(`${turn}번 만에 당첨`);
+				lottoUse(turn, awardNum);
+				break;
+			}
+		}
+		count = 0;
+	}
+}
+
+function awardReturn(count, lottoNum){
+	let award = 100;
+
+	if(count == 6){
+		award = 0;
+	}
+	else if(count == 5){
+		if(lottoNum.includes(bonusNumber)){			
+			award = 1;
+		}
+		else{	
+			award = 2;
+		}
+	}
+	else if(count == 4){
+		award = 3;
+	}
+	else if(count == 3){
+		award = 4;
+	}
+
+	return award;
+}
+
+function winLottoPrint(count, lottoNum, turn){
+	let winLottoDiv = document.getElementById('winLottoDiv');
+	let string = '';
+
+	if(count == 6){
+		string = `
+		<div>
+			<span>${turn}번 로또</span>
+			${numberStyle(lottoNum[0])}
+			${numberStyle(lottoNum[1])}
+			${numberStyle(lottoNum[2])}
+			${numberStyle(lottoNum[3])}
+			${numberStyle(lottoNum[4])}
+			${numberStyle(lottoNum[5])}
+			<span>1등당첨!!</span>
+		</div>`;
+	}
+	else if(count == 5){
+		if(lottoNum.includes(bonusNumber)){
+			string = `
+			<div>
+				<span>${turn}번 로또</span>
+				${numberStyle(lottoNum[0])}
+				${numberStyle(lottoNum[1])}
+				${numberStyle(lottoNum[2])}
+				${numberStyle(lottoNum[3])}
+				${numberStyle(lottoNum[4])}
+				${numberStyle(lottoNum[5])}
+				<span>2등당첨!!</span>
+			</div>`;
+		}
+		else{
+			string = `
+			<div>
+				<span>${turn}번로또</span>
+				${numberStyle(lottoNum[0])}
+				${numberStyle(lottoNum[1])}
+				${numberStyle(lottoNum[2])}
+				${numberStyle(lottoNum[3])}
+				${numberStyle(lottoNum[4])}
+				${numberStyle(lottoNum[5])}
+				<span>3등당첨!!</span>
+			</div>`;
+		}
+	}
+	else if(count == 4){
+		string = `
+		<div>
+			<span>${turn}번 로또</span>
+			${numberStyle(lottoNum[0])}
+			${numberStyle(lottoNum[1])}
+			${numberStyle(lottoNum[2])}
+			${numberStyle(lottoNum[3])}
+			${numberStyle(lottoNum[4])}
+			${numberStyle(lottoNum[5])}
+			<span>4등당첨!!</span>
+		</div>`;
+	}
+	else if(count == 3){
+		string = `
+		<div>
+			<span>${turn}번 로또</span>
+			${numberStyle(lottoNum[0])}
+			${numberStyle(lottoNum[1])}
+			${numberStyle(lottoNum[2])}
+			${numberStyle(lottoNum[3])}
+			${numberStyle(lottoNum[4])}
+			${numberStyle(lottoNum[5])}
+			<span>5등당첨!!</span>
+		</div>`;
+	}
+
+	return string;
+}
+
+function lottoClick(scoreNum){
+	let count = 0;
+	let turn = 0;
+	let num = [];
+	let awardNum = new Array(5);
+
+	awardNum.fill(0);
+
+	let lottoDiv = document.getElementById('lottoDiv');
+
+	let numArray = '';
+	let winArray = '';
+
+	lottoDiv.innerHTML = '';
+	let winLottoDiv = document.getElementById('winLottoDiv');
+	winLottoDiv.innerHTML = '';
+
+	if(scoreNum < 5){
+		numArray = `<h3>발급된 번호 리스트</h3>`
+	}
+	if(scoreNum < 6){
+		winArray = `<h3>당첨된 번호 리스트</h3>`
+	}
+
+	while(1){
+		turn++;
+		num = randomNumber();
+		for(let i = 0; i < 6; i++){
+			if(winNumber.includes(num[i])){
+				count++;
+			}
+		}
+		if(scoreNum < 5){
+			numArray += `
+			<div>	<p>${turn}.</p>
+				${numberStyle(num[0])}
+				${numberStyle(num[1])}
+				${numberStyle(num[2])}
+				${numberStyle(num[3])}
+				${numberStyle(num[4])}
+				${numberStyle(num[5])}
+			</div>`
+		}
+
+		awardNum[awardReturn(count ,num)]++;
+		if(scoreNum < 6){
+			winArray += winLottoPrint(count, num, turn);
+		}
+		
+		if(count == scoreNum){
+			alert(`${turn}번 만에 당첨`);
+			lottoDiv.innerHTML = numArray;
+			lottoUse(turn, awardNum);
+			winLottoDiv.innerHTML = winArray;
+			break;
+		}
+		count = 0;
+	}
+
+}
+
+function numberLineup(number){
+	let numObj = 0;
+
+	for(let i = 0; i < 6; i++){
+		for(let j = 0; j < i; j++){
+			if(number[i] < number[j]){
+				numObj = number[i];
+				number[i] = number[j];
+				number[j] = numObj;
+			}
+		}
+	}
+}
+
+function randomNumber(){
+	let rand = 0;
+	let number = [];
+
+	for(let i = 0; i < 6; i++){
+		rand = (Math.random() * 45) + 1;
+		if(number.includes(parseInt(rand))){
+			i--;
+		}
+		else{	
+			number.push(parseInt(rand));
+		}	
+	}
+
+	numberLineup(number);
+
+	return number;
+}
+
+function initialLotto(){
+	let numberField = document.getElementById('numberField');
+	let lottoTitle = document.getElementById('lottoTitle');
+
+	let dayCount = 1105; // 회차
+	 
+	lottoTitle.innerHTML = `${dayCount}회차 당첨번호`
+
+	for(let i = 0; i < 6; i++){
+		numberField.innerHTML += numberStyle(winNumber[i]);
+	}
+	numberField.innerHTML += `<p class = 'number_symbol'>+</p>`
+	numberField.innerHTML += numberStyle(bonusNumber);
+	
+}
+
+function numberStyle(num){
+	let string = '';
+
+	if(num < 11){
+		string = `<p class = 'number_list' style = 'background-color:#e4c22c;'>${num}</p>`
+	}
+	else if(num < 21){
+		string = `<p class = 'number_list' style = 'background-color:#0c429a;'>${num}</p>`
+	}
+	else if(num < 31){
+		string = `<p class = 'number_list' style = 'background-color:#9a1607;'>${num}</p>`
+	}
+	else if(num < 41){
+		string = `<p class = 'number_list' style = 'background-color:#646464;'>${num}</p>`
+	}
+	else{
+		string = `<p class = 'number_list' style = 'background-color:#0f660c;'>${num}</p>`
+	}
+
+	return string;
+}
+
+function menuClickFirst(){
+	let simulSection = document.getElementById('simulSection');
+	let strongSection = document.getElementById('strongSection');
+	let lottoSection = document.getElementById('lottoSection');
+
+	selectChange();
+	strongReset();
+	simulSection.style.display = 'block';
+	strongSection.style.display = 'none';
+	lottoSection.style.display = 'none';
+}
+
+function menuClickSec(){
+	let simulSection = document.getElementById('simulSection');
+	let strongSection = document.getElementById('strongSection');
+
+	selectChange();
+	strongReset();
+	simulSection.style.display = 'none';
+	strongSection.style.display = 'block';
+	lottoSection.style.display = 'none';
+}
+
+function strongReset(){
+	let stoneObj = document.getElementById('stoneObj');
+	let seedObj = document.getElementById('seedObj');
+	
+	stoneObj.value = '';
+	seedObj.value = '';
+}
+
+function strongBtn(num){
+	let stoneObj = document.getElementById('stoneObj');
+	let seedObj = document.getElementById('seedObj');
+
+	if(stoneObj.value == ''){
+		alert('빈칸을 입력하세요');
+		inputFocus(stoneObj);
+	}
+	else if(seedObj.value == ''){
+		alert('빈칸을 입력하세요');
+		inputFocus(seedObj);
+	}
+	else{
+		strongRun(num, stoneObj.value, seedObj.value);
+	}
+}
+
+function inputFocus(input){
+	input.value = '';
+	input.focus();
+}
+
+function strongRun(num, stone, seed){
+	let stoneSum = 0;
+	let seedSum = 0;
+
+	for(let i = 0; i < num; i++){
+		stoneSum += Number(stone);
+		seedSum += Number(seed);
+		if(Math.random() * 10000 <= 1){
+			success++;
+		}
+		else{
+			fail++;
+		}
+	}
+	printPrice(stoneSum, seedSum);
+}
+
+function printPrice(stoneSum, seedSum){
+	let seedUse = document.getElementById('seedUse');
+	let stoneUse = document.getElementById('stoneUse');
+	let successUse = document.getElementById('successUse');
+	let failUse = document.getElementById('failUse');
+
+	useSeed += Number(seedSum);
+	useStone += Number(stoneSum);
+
+	let seedString = useSeed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+	seedUse.innerHTML = `소모시드 : ${seedString} seed`;
+	stoneUse.innerHTML = `소모된 빛나는 장비 강화석 : ${useStone}개`;
+	successUse.innerHTML = `성공횟수 : ${success}번`;
+	failUse.innerHTML = `실패횟수 : ${fail}번`;
+}
+
+function muteBtn(){
+	let muteBtn = document.getElementById('muteBtn');
+	let effectAudio = document.getElementById('effectAudio');	
+
+	if(muteBtn.classList.value != 'mute_btn active'){
+		muteBtn.classList.add('active');
+		volumeMute(effectAudio);
+	}
+	else{
+		muteBtn.classList.remove('active');
+		volumeMuteFalse(effectAudio);
+	}
+}
+
+
+function volumeMuteFalse(effectAudio){
+	let musicSection = document.getElementById('musicSection');
+
+	effectAudio.muted = false;
+}
+
+function volumeMute(effectAudio){
+	let musicSection = document.getElementById('musicSection');
+
+	effectAudio.muted = true;
+}
+
+function volumeChange(rangeBar){
+	let musicSection = document.getElementById('musicSection');
+
+	effectAudio.volume = rangeBar.value / 100;
+}
+
+function btnActive(btn){
+	let selectWay = document.getElementById('selectWay');
+	let inputDiv = document.getElementById('inputDiv');
+	let oneclickDiv = document.getElementById('oneclickDiv');
+	let btnObj = 2; // 버튼개수
+	
+	if(btn.classList.value != 'btn_basic active'){
+		for(let i = 0; i < 2; i++){
+			selectWay.children[i].classList.remove('active');
+		}
+		btn.classList.add('active');
+		if(btn.innerText == '즉시 사용'){
+			inputDiv.style.display = 'flex';
+			oneclickDiv.style.display = 'none';
+		}
+		else if(btn.innerText == '한개씩 사용'){
+			inputDiv.style.display = 'none';
+			oneclickDiv.style.display = 'block';
+		}
+		selectChange();
+	}
+}
+
+
+function oneClick(){
+	let selectName = document.getElementById('selectName');
+	let itemList = document.getElementById('itemList');
+
+
+	if(selectName.value == '젤리삐의 오색찬란 떡국'){
+		itemList.innerHTML = itemReturnPart1(1);
+	}
+	else if(selectName.value == '젤리삐의 노랑 떡국'){
+		itemList.innerHTML = itemReturnPart2(1);
+	}
+	else if(selectName.value == '프로즌 리저드의 황금 점박이 알'){
+		itemList.innerHTML = itemReturnPart3(1);
+	}
+	else if(selectName.value == '프로즌 리저드의 점박이 알'){
+		itemList.innerHTML = itemReturnPart4(1);
+	}
+}
+
+function numkey(){
+	let keyValue = event.keyCode;
+
+	if(keyValue >= 48 && keyValue <= 57){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+function selectChange(){
+	let simulationInput = document.getElementById('simulationInput');
+	clearList();	
+	simulationInput.value = '';
+}
+
+function clearList(){
+	let itemList = document.getElementById('itemList');
+	
+	itemList.innerHTML = '';
+}
+
+function inputClick(){
+	let selectName = document.getElementById('selectName');
+	let simulationInput = document.getElementById('simulationInput');
+	let itemList = document.getElementById('itemList');
+
+	if(simulationInput.value > 8000){
+		alert('8000 아래숫자만 입력하세요 (과부하 방지)');
+	}
+	else{
+	
+		if(selectName.value == '젤리삐의 오색찬란 떡국'){
+			itemList.innerHTML = itemReturnPart1(simulationInput.value);
+		}
+		else if(selectName.value == '젤리삐의 노랑 떡국'){
+			itemList.innerHTML = itemReturnPart2(simulationInput.value);
+		}
+		else if(selectName.value == '프로즌 리저드의 황금 점박이 알'){
+			itemList.innerHTML = itemReturnPart3(simulationInput.value);
+		}
+		else if(selectName.value == '프로즌 리저드의 점박이 알'){
+			itemList.innerHTML = itemReturnPart4(simulationInput.value);
+		}
+	}
+	simulationInput.value = '';
+}
+
+// 젤리삐의 노랑 떡국
+function itemReturnPart2(objVal){
+	let itemName = ['이자벨의 비법 (경험)', '이자벨의 비법 (고정 능력치)', '이자벨의 비법 (비율 능력치)', '이자벨의 비법 (대미지)', '이자벨의 비법 (HP 회복)', '이자벨의 네냐플 족집게 노트', '이자벨의 외치기 뿔피리', '이자벨의 특선 묘약 (경험)', '이자벨의 특선 묘약 (룬 경험)', '이자벨의 특선 묘약 (고정 능력치)', '이자벨의 특선 묘약 (비율 능력치)', '이자벨의 특선 묘약 (대미지)', '이자벨의 특선 묘약 (HP 회복)', '해방된 시엔 크리스탈', '[+10] 찌르기 인챈트 주문서 (축복치 없음)', '[+10] 베기 인챈트 주문서 (축복치 없음)', '[+10] 마법 공격력 인챈트 주문서 (축복치 없음)', '[+10] 마법 방어력 인챈트 주문서 (축복치 없음)', '[+10] 물리 방어력 인챈트 주문서 (축복치 없음)', '[+10] 명중률 인챈트 주문서 (축복치 없음)', '[+10] 크리티컬 인챈트 주문서 (축복치 없음)', '[+10] 회피율 인챈트 주문서 (축복치 없음)', '[+10] 민첩성 인챈트 주문서 (축복치 없음)', '[+12] 찌르기 인챈트 주문서 (축복치 없음)', '[+12] 베기 인챈트 주문서 (축복치 없음)', '[+12] 마법 공격력 인챈트 주문서 (축복치 없음)', '[+12] 마법 방어력 인챈트 주문서 (축복치 없음)', '[+12] 물리 방어력 인챈트 주문서 (축복치 없음)', '[+12] 명중률 인챈트 주문서 (축복치 없음)', '[+12] 크리티컬 인챈트 주문서 (축복치 없음)', '[+12] 회피율 인챈트 주문서 (축복치 없음)', '[+12] 민첩성 인챈트 주문서 (축복치 없음)', '[+14] 찌르기 인챈트 주문서 (축복치 없음)', '[+14] 베기 인챈트 주문서 (축복치 없음)', '[+14] 마법 공격력 인챈트 주문서 (축복치 없음)', '[+14] 마법 방어력 인챈트 주문서 (축복치 없음)', '[+15] 찌르기 인챈트 주문서 (축복치 없음)', '[+15] 베기 인챈트 주문서 (축복치 없음)', '[+15] 마법 공격력 인챈트 주문서 (축복치 없음)', '[+15] 마법 방어력 인챈트 주문서 (축복치 없음)', '장비 파괴 보호 주문서', '머큐리얼 코어 강화/진화 1회권 (진화 1단계)', '머큐리얼 코어 강화/진화 1회권 (진화 2단계)', '머큐리얼 코어 강화/진화 1회권 (진화 3단계)', '머큐리얼 코어 강화/진화 1회권 (진화 4단계)', '어비스 코어 강화/진화 1회권 (진화 1단계)', '어비스 코어 강화/진화 1회권 (진화 2단계)', '어비스 코어 강화/진화 1회권 (진화 3단계)', '어비스 코어 강화/진화 1회권 (진화 4단계)', '이클립스 코어 강화/진화 1회권 (진화 1단계)', '이클립스 코어 강화/진화 1회권 (진화 2단계)', '이클립스 코어 강화/진화 1회권 (진화 3단계)', '이클립스 코어 강화/진화 1회권 (진화 4단계)', '5% 노패널티 강화권 (Lv310/+10)', '10% 노패널티 강화권 (Lv310/+10)', '100% 노패널티 강화권 (Lv310/+10)', '신조의 눈물', '강대한 마력의 상급 전이석', '환수 - 케르베로스', '환수 - 피닉스', '환수 - 리바이어던', '환수 - 그리폰', '환수 - 유니콘', '베베정령 - 플라삐', '베베정령 - 젤리삐', '베베정령 - 우문문어', '베베정령 - 날다람쥐', '오색찬란구름 - 플라삐선녀', '오색찬란구름 - 젤리삐선녀', '오색찬란구름 - 아이스삐선녀', '오색찬란구름 - 포이즌삐선녀', '펫S스킬 스크롤 (ⓢSTAB 강화)', '펫S스킬 스크롤 (ⓢHACK 강화)', '펫S스킬 스크롤 (ⓢINT 강화)', '펫S스킬 스크롤 (ⓢDEF 강화)', '펫S스킬 스크롤 (ⓢMR 강화)', '펫S스킬 스크롤 (ⓢDEX 강화)', '펫S스킬 스크롤 (ⓢAGI 강화)', '펫S스킬 스크롤 (ⓢSTAB 강화 증폭 Lv1)', '펫S스킬 스크롤 (ⓢHACK 강화 증폭 Lv1)', '펫S스킬 스크롤 (ⓢINT 강화 증폭 Lv1)', '펫S스킬 스크롤 (ⓢDEF 강화 증폭 Lv1)', '펫S스킬 스크롤 (ⓢMR 강화 증폭 Lv1)', '펫S스킬 스크롤 (ⓢDEX 강화 증폭 Lv1)', '펫S스킬 스크롤 (ⓢAGI 강화 증폭 Lv1)', '펫S스킬 스크롤 (ⓢSTAB 강화 증폭 Lv2)', '펫S스킬 스크롤 (ⓢHACK 강화 증폭 Lv2)', '펫S스킬 스크롤 (ⓢINT 강화 증폭 Lv2)', '펫S스킬 스크롤 (ⓢDEF 강화 증폭 Lv2)', '펫S스킬 스크롤 (ⓢMR 강화 증폭 Lv2)', '펫S스킬 스크롤 (ⓢDEX 강화 증폭 Lv2)', '펫S스킬 스크롤 (ⓢAGI 강화 증폭 Lv2)', '아칸 처치 의뢰 스크롤', '심연의 사도 처치 의뢰 스크롤', '이자벨의 프시키 듀얼 부스트 (7일)', '이자벨의 루미너스 듀얼 부스트 (7일)', '이자벨의 어비스 - 심층 Ⅰ 듀얼 부스트 (7일)', '이자벨의 어비스 - 심층 Ⅱ 듀얼 부스트 (7일)', '이자벨의 어비스 - 심층 Ⅲ 듀얼 부스트 (7일)', '이자벨의 어비스 - 심층 Ⅳ 듀얼 부스트 (7일)', '이자벨의 어비스 - 심층 Ⅴ 듀얼 부스트 (7일)', '이자벨의 어비스 - 심층 Ⅵ 듀얼 부스트 (7일)', '이자벨의 프시키 듀얼 부스트 (14일)', '이자벨의 루미너스 듀얼 부스트 (14일)', '이자벨의 어비스 - 심층 Ⅰ 듀얼 부스트 (14일)', '이자벨의 어비스 - 심층 Ⅱ 듀얼 부스트 (14일)', '이자벨의 어비스 - 심층 Ⅲ 듀얼 부스트 (14일)', '이자벨의 어비스 - 심층 Ⅳ 듀얼 부스트 (14일)', '이자벨의 어비스 - 심층 Ⅴ 듀얼 부스트 (14일)', '이자벨의 어비스 - 심층 Ⅵ 듀얼 부스트 (14일)', '명예의 서(고귀한 자 - 찌르기)', '명예의 서(고귀한 자 - 베기)', '명예의 서(고귀한 자 - 마법 공격)', '명예의 서(고귀한 자 - 마법 방어)', '명예의 서 (범 내려온다 - 찌르기)', '명예의 서 (범 내려온다 - 베기)', '명예의 서 (범 내려온다 - 마법 공격)', '명예의 서 (범 내려온다 - 마법 방어)', '명예의 서 (신묘한 검은토끼 - 찌르기)', '명예의 서 (신묘한 검은토끼 - 베기)', '명예의 서 (신묘한 검은토끼 - 마법 공격)', '명예의 서 (신묘한 검은토끼 - 마법 방어)', '명예의 서 (영검한 청룡 - 찌르기)', '명예의 서 (영검한 청룡 - 베기)', '명예의 서 (영검한 청룡 - 마법 공격)', '명예의 서 (영검한 청룡 - 마법 방어)', '우정의 묘약 (500)', '몬스터카드 능력치 강화석 (STAB +1)', '몬스터카드 능력치 강화석 (HACK +1)', '몬스터카드 능력치 강화석 (INT +1)', '몬스터카드 능력치 강화석 (DEF +1)', '몬스터카드 능력치 강화석 (MR +1)', '몬스터카드 능력치 강화석 (DEX +1)', '몬스터카드 능력치 강화석 (AGI +1)', '융합된 기운', '완전한 시엔 크리스탈', '각성 추출 비전서', '스페셜 스킬 (ⓟ 연마 강화)', '수호자의 영혼석', '전속 해제 스크롤', '스페셜 스킬 (ⓟ 고급 체력 연마)', '스페셜 스킬 (ⓟ 고급 방어구 연마)', '수려한 한복함', '[몬스터카드 포인트] 아칸 (CP 1)'];
+	let itemObj = [20, 20, 20, 20, 40, 1, 4, 1, 1, 1, 1, 1, 20, 100, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 30, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+	let itemPer = [3, 3, 3, 3, 4, 4, 3.5, 1.5, 0.05, 1.5, 1.5, 1.5, 2.5, 0.6, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.02, 0.02, 0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 3, 4, 4, 3, 2, 3.6, 3.6, 2.6, 1.5, 1, 0.3, 0.05, 0.015, 1, 0.4, 0.06, 0.03, 0.5, 0.05, 0.05, 0.05, 0.05, 0.05, 0.01, 0.01, 0.01, 0.01, 0.008, 0.008, 0.008, 0.008, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.025, 0.025, 0.025, 0.025, 0.025, 0.025, 0.025, 1, 0.8, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.2, 0.2, 0.2, 0.2, 0.08, 0.08, 0.08, 0.08, 0.02, 0.02, 0.02, 0.02, 0.008, 0.008, 0.008, 0.008, 8.333, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.07, 0.002, 0.05, 0.02, 0.006, 0.1, 0.05, 0.025, 0.03, 0.1];
+	let stringNum = '';
+	clearList();
+
+	for(let i = 0; i < objVal; i++){
+		let rand = randomFunction();
+		stringNum += winItem(i, itemName, itemObj, itemPer, rand);
+	}
+	
+	return stringNum;
+}
+
+// 젤리삐의 오색찬란 떡국
+function itemReturnPart1(objVal){
+	let itemName = ['이자벨의 특선 묘약 (경험)', '이자벨의 특선 묘약 (고정 능력치)', '이자벨의 특선 묘약 (비율 능력치)', '이자벨의 특선 묘약 (대미지)', '이자벨의 특선 묘약 (HP 회복)', '이자벨의 특선 묘약 티켓', '펫S스킬 스크롤 (ⓢSTAB 강화 증폭 Lv3)', '펫S스킬 스크롤 (ⓢHACK 강화 증폭 Lv3)', '펫S스킬 스크롤 (ⓢINT 강화 증폭 Lv3)', '펫S스킬 스크롤 (ⓢDEF 강화 증폭 Lv3)', '펫S스킬 스크롤 (ⓢMR 강화 증폭 Lv3)', '펫S스킬 스크롤 (ⓢDEX 강화 증폭 Lv3)', '펫S스킬 스크롤 (ⓢAGI 강화 증폭 Lv3)', '코어 패키지 상자(머큐리얼 강화/진화권 1~4단계)', '코어 패키지 상자(어비스 강화/진화권 1~4단계)', '코어 패키지 상자(이클립스 강화/진화권 1~4단계)', '다리 부가옵션 스크롤 (~Lv310/No. 574)', '손목 부가옵션 스크롤 (~Lv310/No. 577)', '손목 부가옵션 스크롤 (~Lv310/No. 578)', '손목 부가옵션 스크롤 (~Lv310/No. 579)', '손목 부가옵션 스크롤 (~Lv310/No. 580)', '손목 부가옵션 스크롤 (~Lv310/No. 581)', '손목 부가옵션 스크롤 (~Lv310/No. 582)', '무기 부가옵션 스크롤 (~Lv310/No. 585)', '무기 부가옵션 스크롤 (~Lv310/No. 586)', '투구 부가옵션 스크롤 (~Lv310/No. 590)', '[+12] 찌르기 인챈트 주문서 (축복치 없음)', '[+12] 베기 인챈트 주문서 (축복치 없음)', '[+12] 마법 공격력 인챈트 주문서 (축복치 없음)', '[+12] 마법 방어력 인챈트 주문서 (축복치 없음)', '[+12] 명중률 인챈트 주문서 (축복치 없음)', '[+12] 크리티컬 인챈트 주문서 (축복치 없음)', '[+14] 찌르기 인챈트 주문서 (축복치 없음)', '[+14] 베기 인챈트 주문서 (축복치 없음)', '[+14] 마법 공격력 인챈트 주문서 (축복치 없음)', '[+14] 마법 방어력 인챈트 주문서 (축복치 없음)', '[+15] 찌르기 인챈트 주문서 (축복치 없음)', '[+15] 베기 인챈트 주문서 (축복치 없음)', '[+15] 마법 공격력 인챈트 주문서 (축복치 없음)', '[+15] 마법 방어력 인챈트 주문서 (축복치 없음)', '100% 노패널티 강화권 (Lv310/+10)', '환수 - 케르베로스', '환수 - 피닉스', '환수 - 리바이어던', '환수 - 그리폰', '환수 - 유니콘', '베베정령 - 플라삐', '베베정령 - 젤리삐', '베베정령 - 우문문어', '베베정령 - 날다람쥐', '오색찬란구름 - 플라삐선녀', '오색찬란구름 - 젤리삐선녀', '오색찬란구름 - 아이스삐선녀', '오색찬란구름 - 포이즌삐선녀', '명예의 서 (범 내려온다 - 찌르기)', '명예의 서 (범 내려온다 - 베기)', '명예의 서 (범 내려온다 - 마법 공격)', '명예의 서 (범 내려온다 - 마법 방어)', '명예의 서 (신묘한 검은토끼 - 찌르기)', '명예의 서 (신묘한 검은토끼 - 베기)', '명예의 서 (신묘한 검은토끼 - 마법 공격)', '명예의 서 (신묘한 검은토끼 - 마법 방어)', '명예의 서 (영검한 청룡 - 찌르기)', '명예의 서 (영검한 청룡 - 베기)', '명예의 서 (영검한 청룡 - 마법 공격)', '명예의 서 (영검한 청룡 - 마법 방어)', '완전한 시엔 크리스탈', '융합된 기운', '융합된 기운', '상속 주문서', '상속 주문서', '각성 추출 비전서', '스페셜 스킬 (ⓟ 연마 강화)', '스페셜 스킬 (ⓟ 연마 강화)', '수호자의 영혼석', '수호자의 영혼석', '에오니스 라피스', '스페셜 스킬 (ⓟ 고급 체력 연마)', '스페셜 스킬 (ⓟ 고급 방어구 연마)', '[몬스터카드 포인트] 아칸 (CP 10)', '수려한 한복 염색 영구 정착제', '장인 수려한 한복함', '영검한 상자(에타 상자)', '영검한 상자(5차 각성 재료)', '영검한 상자(스페셜 스킬 (ⓟ 고급 체력 연마))', '영검한 상자(스페셜 스킬 (ⓟ 고급 방어구 연마))', '영검한 상자(스페셜 스킬 묶음 세트)', '영검한 상자(융합된 기운, 수호자의 영혼석)'];
+	let itemObj = [2, 2, 2, 2, 40, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 3, 1, 1, 5, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+	let itemPer = [8.5, 8.5, 8.5, 8.5, 8.5, 4.775, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 2, 1.5, 0.5, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 0.65, 0.65, 0.65, 0.65, 0.25, 0.25, 0.25, 0.25, 1.9, 1.2, 1.2, 1.2, 1.2, 1.2, 0.3, 0.3, 0.3, 0.3, 0.15, 0.15, 0.15, 0.15, 1.5, 1.5, 1.5, 1.5, 0.4, 0.4, 0.4, 0.4, 0.15, 0.15, 0.15, 0.15, 0.03, 1, 0.5, 1.5, 0.3, 0.5, 0.5, 0.1, 0.25, 0.08, 0.03, 1, 0.5, 0.5, 1, 0.3, 0.015, 0.08, 0.1, 0.1, 0.05, 0.09];
+	
+	let stringNum = '';
+
+	clearList();
+	for(let i = 0; i < objVal; i++){
+		let rand = randomFunction();
+		stringNum += winItem(i, itemName, itemObj, itemPer, rand);
+	}
+	
+	return stringNum;
+}
+
+// 프로즌 리저드의 점박이 알
+function itemReturnPart4(objVal){
+	let itemName = ['이자벨의 비법 (경험)', '이자벨의 비법 (고정 능력치)', '이자벨의 비법 (비율 능력치)', '이자벨의 비법 (대미지)', '이자벨의 비법 (HP 회복)', '이자벨의 네냐플 족집게 노트', '이자벨의 외치기 뿔피리', '이자벨의 특선 묘약 (경험)', '이자벨의 특선 묘약 (룬 경험)', '이자벨의 특선 묘약 (고정 능력치)', '이자벨의 특선 묘약 (비율 능력치)', '이자벨의 특선 묘약 (대미지)', '이자벨의 특선 묘약 (HP 회복)', '해방된 시엔 크리스탈', '[+10] 찌르기 인챈트 주문서 (축복치 없음)', '[+10] 베기 인챈트 주문서 (축복치 없음)', '[+10] 마법 공격력 인챈트 주문서 (축복치 없음)', '[+10] 마법 방어력 인챈트 주문서 (축복치 없음)', '[+10] 물리 방어력 인챈트 주문서 (축복치 없음)', '[+10] 명중률 인챈트 주문서 (축복치 없음)', '[+10] 크리티컬 인챈트 주문서 (축복치 없음)', '[+10] 회피율 인챈트 주문서 (축복치 없음)', '[+10] 민첩성 인챈트 주문서 (축복치 없음)', '[+12] 찌르기 인챈트 주문서 (축복치 없음)', '[+12] 베기 인챈트 주문서 (축복치 없음)', '[+12] 마법 공격력 인챈트 주문서 (축복치 없음)', '[+12] 마법 방어력 인챈트 주문서 (축복치 없음)', '[+12] 물리 방어력 인챈트 주문서 (축복치 없음)', '[+12] 명중률 인챈트 주문서 (축복치 없음)', '[+12] 크리티컬 인챈트 주문서 (축복치 없음)', '[+12] 회피율 인챈트 주문서 (축복치 없음)', '[+12] 민첩성 인챈트 주문서 (축복치 없음)', '[+14] 찌르기 인챈트 주문서 (축복치 없음)', '[+14] 베기 인챈트 주문서 (축복치 없음)', '[+14] 마법 공격력 인챈트 주문서 (축복치 없음)', '[+14] 마법 방어력 인챈트 주문서 (축복치 없음)', '장비 파괴 보호 주문서', '머큐리얼 코어 강화/진화 1회권 (진화 1단계)', '머큐리얼 코어 강화/진화 1회권 (진화 2단계)', '머큐리얼 코어 강화/진화 1회권 (진화 3단계)', '머큐리얼 코어 강화/진화 1회권 (진화 4단계)', '어비스 코어 강화/진화 1회권 (진화 1단계)', '어비스 코어 강화/진화 1회권 (진화 2단계)', '어비스 코어 강화/진화 1회권 (진화 3단계)', '어비스 코어 강화/진화 1회권 (진화 4단계)', '이클립스 코어 강화/진화 1회권 (진화 1단계)', '이클립스 코어 강화/진화 1회권 (진화 2단계)', '이클립스 코어 강화/진화 1회권 (진화 3단계)', '이클립스 코어 강화/진화 1회권 (진화 4단계)', '5% 노패널티 강화권 (Lv310/+10)', '10% 노패널티 강화권 (Lv310/+10)', '100% 노패널티 강화권 (Lv310/+10)', '신조의 눈물', '강대한 마력의 상급 전이석', '환수 - 케르베로스', '환수 - 피닉스', '환수 - 리바이어던', '환수 - 그리폰', '환수 - 유니콘', '베베정령 - 플라삐', '베베정령 - 젤리삐', '베베정령 - 우문문어', '베베정령 - 날다람쥐', '펫S스킬 스크롤 (ⓢSTAB 강화)', '펫S스킬 스크롤 (ⓢHACK 강화)', '펫S스킬 스크롤 (ⓢINT 강화)', '펫S스킬 스크롤 (ⓢDEF 강화)', '펫S스킬 스크롤 (ⓢMR 강화)', '펫S스킬 스크롤 (ⓢDEX 강화)', '펫S스킬 스크롤 (ⓢAGI 강화)', '펫S스킬 스크롤 (ⓢSTAB 강화 증폭 Lv1)', '펫S스킬 스크롤 (ⓢHACK 강화 증폭 Lv1)', '펫S스킬 스크롤 (ⓢINT 강화 증폭 Lv1)', '펫S스킬 스크롤 (ⓢDEF 강화 증폭 Lv1)', '펫S스킬 스크롤 (ⓢMR 강화 증폭 Lv1)', '펫S스킬 스크롤 (ⓢDEX 강화 증폭 Lv1)', '펫S스킬 스크롤 (ⓢAGI 강화 증폭 Lv1)', '펫S스킬 스크롤 (ⓢSTAB 강화 증폭 Lv2)', '펫S스킬 스크롤 (ⓢHACK 강화 증폭 Lv2)', '펫S스킬 스크롤 (ⓢINT 강화 증폭 Lv2)', '펫S스킬 스크롤 (ⓢDEF 강화 증폭 Lv2)', '펫S스킬 스크롤 (ⓢMR 강화 증폭 Lv2)', '펫S스킬 스크롤 (ⓢDEX 강화 증폭 Lv2)', '펫S스킬 스크롤 (ⓢAGI 강화 증폭 Lv2)', '아칸 처치 의뢰 스크롤', '심연의 사도 처치 의뢰 스크롤', '이자벨의 프시키 듀얼 부스트 (7일)', '이자벨의 루미너스 듀얼 부스트 (7일)', '이자벨의 어비스 - 심층 Ⅰ 듀얼 부스트 (7일)', '이자벨의 어비스 - 심층 Ⅱ 듀얼 부스트 (7일)', '이자벨의 어비스 - 심층 Ⅲ 듀얼 부스트 (7일)', '이자벨의 어비스 - 심층 Ⅳ 듀얼 부스트 (7일)', '이자벨의 어비스 - 심층 Ⅴ 듀얼 부스트 (7일)', '이자벨의 어비스 - 심층 Ⅵ 듀얼 부스트 (7일)', '이자벨의 프시키 듀얼 부스트 (14일)', '이자벨의 루미너스 듀얼 부스트 (14일)', '이자벨의 어비스 - 심층 Ⅰ 듀얼 부스트 (14일)', '이자벨의 어비스 - 심층 Ⅱ 듀얼 부스트 (14일)', '이자벨의 어비스 - 심층 Ⅲ 듀얼 부스트 (14일)', '이자벨의 어비스 - 심층 Ⅳ 듀얼 부스트 (14일)', '이자벨의 어비스 - 심층 Ⅴ 듀얼 부스트 (14일)', '이자벨의 어비스 - 심층 Ⅵ 듀얼 부스트 (14일)', '명예의 서(고귀한 자 - 찌르기)', '명예의 서(고귀한 자 - 베기)', '명예의 서(고귀한 자 - 마법 공격)', '명예의 서(고귀한 자 - 마법 방어)', '명예의 서 (범 내려온다 - 찌르기)', '명예의 서 (범 내려온다 - 베기)', '명예의 서 (범 내려온다 - 마법 공격)', '명예의 서 (범 내려온다 - 마법 방어)', '명예의 서 (신묘한 검은토끼 - 찌르기)', '명예의 서 (신묘한 검은토끼 - 베기)', '명예의 서 (신묘한 검은토끼 - 마법 공격)', '명예의 서 (신묘한 검은토끼 - 마법 방어)', '명예의 서 (영검한 청룡 - 찌르기)', '명예의 서 (영검한 청룡 - 베기)', '명예의 서 (영검한 청룡 - 마법 공격)', '명예의 서 (영검한 청룡 - 마법 방어)', '우정의 묘약 (500)', '몬스터카드 능력치 강화석 (STAB +1)', '몬스터카드 능력치 강화석 (HACK +1)', '몬스터카드 능력치 강화석 (INT +1)', '몬스터카드 능력치 강화석 (DEF +1)', '몬스터카드 능력치 강화석 (MR +1)', '몬스터카드 능력치 강화석 (DEX +1)', '몬스터카드 능력치 강화석 (AGI +1)', '융합된 기운', '완전한 시엔 크리스탈', '각성 추출 비전서', '스페셜 스킬 (ⓟ 연마 강화)', '수호자의 영혼석', '전속 해제 스크롤', '스페셜 스킬 (ⓟ 고급 체력 연마)', '스페셜 스킬 (ⓟ 고급 방어구 연마)', '네냐플 교복 상자', '[몬스터카드 포인트] 아칸 (CP 1)'];
+	let itemObj = [20, 20, 20, 20, 40, 1, 4, 1, 1, 1, 1, 1, 20, 100, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 30, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+	let itemPer = [3, 3, 3, 3, 4, 4, 3.5, 1.5, 0.03, 1.5, 1.5, 1.5, 2.5, 0.6, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.01, 0.01, 0.01, 0.01, 3, 4, 4, 3, 2, 3.6, 3.6, 2.6, 1.5, 1, 0.3, 0.05, 0.015, 1, 0.4, 0.06, 0.03, 0.5, 0.05, 0.05, 0.05, 0.05, 0.05, 0.01, 0.01, 0.01, 0.01, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.025, 0.025, 0.025, 0.025, 0.025, 0.025, 0.025, 1, 0.8, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.2, 0.2, 0.2, 0.2, 0.08, 0.08, 0.08, 0.08, 0.02, 0.02, 0.02, 0.02, 0.008, 0.008, 0.008, 0.008, 8.56, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.07, 0.002, 0.05, 0.02, 0.006, 0.1, 0.05, 0.025, 0.025, 0.1];
+
+	let stringNum = '';
+	clearList();
+
+	for(let i = 0; i < objVal; i++){
+		let rand = randomFunction();
+		stringNum += winItem(i, itemName, itemObj, itemPer, rand);
+	}
+
+	return stringNum;
+}
+
+// 프로즌 리저드의 황금 점박이 알
+function itemReturnPart3(objVal){
+	let itemName = ['이자벨의 특선 묘약 (경험)', '이자벨의 특선 묘약 (고정 능력치)', '이자벨의 특선 묘약 (비율 능력치)', '이자벨의 특선 묘약 (대미지)', '이자벨의 특선 묘약 (HP 회복)', '이자벨의 특선 묘약 티켓', '펫S스킬 스크롤 (ⓢSTAB 강화 증폭 Lv3)', '펫S스킬 스크롤 (ⓢHACK 강화 증폭 Lv3)', '펫S스킬 스크롤 (ⓢINT 강화 증폭 Lv3)', '펫S스킬 스크롤 (ⓢDEF 강화 증폭 Lv3)', '펫S스킬 스크롤 (ⓢMR 강화 증폭 Lv3)', '펫S스킬 스크롤 (ⓢDEX 강화 증폭 Lv3)', '펫S스킬 스크롤 (ⓢAGI 강화 증폭 Lv3)', '코어 패키지 상자(머큐리얼 강화/진화권 1~4단계)', '코어 패키지 상자(어비스 강화/진화권 1~4단계)', '코어 패키지 상자(이클립스 강화/진화권 1~4단계)', '다리 부가옵션 스크롤 (~Lv310/No. 574)', '손목 부가옵션 스크롤 (~Lv310/No. 577)', '손목 부가옵션 스크롤 (~Lv310/No. 578)', '손목 부가옵션 스크롤 (~Lv310/No. 579)', '손목 부가옵션 스크롤 (~Lv310/No. 580)', '손목 부가옵션 스크롤 (~Lv310/No. 581)', '손목 부가옵션 스크롤 (~Lv310/No. 582)', '무기 부가옵션 스크롤 (~Lv310/No. 585)', '무기 부가옵션 스크롤 (~Lv310/No. 586)', '투구 부가옵션 스크롤 (~Lv310/No. 590)', '[+12] 찌르기 인챈트 주문서 (축복치 없음)', '[+12] 베기 인챈트 주문서 (축복치 없음)', '[+12] 마법 공격력 인챈트 주문서 (축복치 없음)', '[+12] 마법 방어력 인챈트 주문서 (축복치 없음)', '[+12] 명중률 인챈트 주문서 (축복치 없음)', '[+12] 크리티컬 인챈트 주문서 (축복치 없음)', '[+14] 찌르기 인챈트 주문서 (축복치 없음)', '[+14] 베기 인챈트 주문서 (축복치 없음)', '[+14] 마법 공격력 인챈트 주문서 (축복치 없음)', '[+14] 마법 방어력 인챈트 주문서 (축복치 없음)', '100% 노패널티 강화권 (Lv310/+10)', '환수 - 케르베로스', '환수 - 피닉스', '환수 - 리바이어던', '환수 - 그리폰', '환수 - 유니콘', '베베정령 - 플라삐', '베베정령 - 젤리삐', '베베정령 - 우문문어', '베베정령 - 날다람쥐', '명예의 서 (범 내려온다 - 찌르기)', '명예의 서 (범 내려온다 - 베기)', '명예의 서 (범 내려온다 - 마법 공격)', '명예의 서 (범 내려온다 - 마법 방어)', '명예의 서 (신묘한 검은토끼 - 찌르기)', '명예의 서 (신묘한 검은토끼 - 베기)', '명예의 서 (신묘한 검은토끼 - 마법 공격)', '명예의 서 (신묘한 검은토끼 - 마법 방어)', '명예의 서 (영검한 청룡 - 찌르기)', '명예의 서 (영검한 청룡 - 베기)', '명예의 서 (영검한 청룡 - 마법 공격)', '명예의 서 (영검한 청룡 - 마법 방어)', '완전한 시엔 크리스탈', '융합된 기운', '융합된 기운', '상속 주문서', '상속 주문서', '각성 추출 비전서', '스페셜 스킬 (ⓟ 연마 강화)', '스페셜 스킬 (ⓟ 연마 강화)', '수호자의 영혼석', '수호자의 영혼석', '에오니스 라피스', '스페셜 스킬 (ⓟ 고급 체력 연마)', '스페셜 스킬 (ⓟ 고급 방어구 연마)', '[몬스터카드 포인트] 아칸 (CP 10)', '네냐플 교복 염색 영구 정착제', '드레스업 네냐플 교복 상자', '프로즌 리저드의 대미지 스킨 모음 상자', '프로즌 리저드의 결합상자(찌르기 인챈트 주문서)', '프로즌 리저드의 결합상자(베기 인챈트 주문서)', '프로즌 리저드의 결합상자(마법 공격력 인챈트 주문서)', '프로즌 리저드의 결합상자(마법 방어력 인챈트 주문서)'];
+	let itemObj = [2, 2, 2, 2, 40, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 3, 1, 1, 5, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+	let itemPer = [8.5, 8.5, 8.5, 8.5, 8.5, 5.59, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 2, 1.5, 0.5, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 0.65, 0.65, 0.65, 0.65, 1.9, 1.2, 1.2, 1.2, 1.2, 1.2, 0.23, 0.23, 0.23, 0.23, 1.5, 1.5, 1.5, 1.5, 0.4, 0.4, 0.4, 0.4, 0.15, 0.15, 0.15, 0.15, 0.03, 1, 0.5, 1.5, 0.3, 0.5, 0.5, 0.1, 0.25, 0.08, 0.03, 1, 0.5, 0.5, 1, 0.35, 1, 0.2, 0.2, 0.2, 0.2];
+
+	let stringNum = '';
+	
+	clearList();
+	for(let i = 0; i < objVal; i++){
+		let rand = randomFunction();
+		stringNum += winItem(i, itemName, itemObj, itemPer, rand);
+	}
+
+	return stringNum;
+}
+
+function winItem(listOrder, itemName, itemObj, itemPer, rand){
+	let sum = 0;
+	let value = 0;
+	let stringNum = '';
+	for(let i = 0; i < itemPer.length; i++){
+		sum += itemPer[i];
+		if(sum > rand){
+			stringNum = `
+				<li>
+					<p>${listOrder+1}. ${itemName[i]}</p>
+					<p>${itemObj[i]}개</p>
+					<p>${itemPer[i].toFixed(4)}%</p>
+				</li>`
+			value = i;
+			break;
+		}
+	}
+	oneclickCondition(itemName[value]);
+
+	return stringNum;
+}
+
+function oneclickCondition(itemName){
+	let oneClick = document.getElementById('oneClick');
+	let actSection = document.getElementById('actSection');
+
+	if(oneClick.classList.value == 'btn_basic active'){
+		actSection.innerHTML += `
+		<div>
+			<p>${itemName}</p>
+		</div>
+		`;
+		actSection.children[actSection.children.length - 1].animate([
+			{top : '0'},
+			{top : `calc(100% - 80px * ${actSection.children.length})`}
+		],	{
+			duration:400
+		});
+		actSection.children[actSection.children.length - 1].style.top = `calc(100% - 80px * ${actSection.children.length})`;
+		setTimeout(function() {
+ 			actSection.children[0].remove();
+			for(let i = 0; i < actSection.children.length; i++){
+				actSection.children[i].style.top = `calc(100% - 80px * ${i + 1})`;
+			}
+		
+		}, 1300);
+		musicActive();
+	}
+}
+
+function musicActive(){
+	let effectAudio = document.getElementById('effectAudio');
+	
+	effectAudio.load();	
+	effectAudio.play();
+}
+
+function randomFunction(){
+	let sum = (Math.random() * 100);
+
+	return sum;
+}
+	
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
